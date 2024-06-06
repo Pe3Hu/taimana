@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://xhwscqjodixv"]
+
+[ext_resource type="Script" path="res://scene/6/stratum.gd" id="1_5xg53"]
+
+[node name="Stratum" type="Polygon2D"]
+script = ExtResource("1_5xg53")

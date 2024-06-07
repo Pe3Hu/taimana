@@ -12,11 +12,14 @@ func _ready() -> void:
 	pass
 
 
-#func _input(event) -> void:
-	#if event is InputEventKey:
-		#var planet = sketch.universe.planets.get_child(0)
-		#
-		#match event.keycode:
+func _input(event) -> void:
+	if event is InputEventKey:
+		var planet = sketch.universe.planets.get_child(0)
+		
+		match event.keycode:
+			KEY_SPACE:
+				if event.is_pressed() && !event.is_echo():
+					planet.cave.hall.roll()
 			#KEY_A:
 				#if event.is_pressed() && !event.is_echo():
 					#planet.mainland.shift_layer("affiliation", -1)

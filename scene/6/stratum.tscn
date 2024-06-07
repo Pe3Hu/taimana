@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://xhwscqjodixv"]
+[gd_scene load_steps=3 format=3 uid="uid://xhwscqjodixv"]
 
 [ext_resource type="Script" path="res://scene/6/stratum.gd" id="1_5xg53"]
+[ext_resource type="PackedScene" uid="uid://ciw38iqel0v5a" path="res://scene/0/icon.tscn" id="2_jo7bn"]
 
 [node name="Stratum" type="Polygon2D"]
 script = ExtResource("1_5xg53")
+
+[node name="Probability" parent="." instance=ExtResource("2_jo7bn")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 1
+grow_vertical = 1

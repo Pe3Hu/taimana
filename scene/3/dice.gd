@@ -17,6 +17,8 @@ var window = 1
 var skip = true
 var anchor = null
 var temp = true
+var crushs = 0
+var debt = null
 #endregion
 
 
@@ -31,6 +33,7 @@ func set_attributes(input_: Dictionary) -> void:
 func init_basic_setting() -> void:
 	time = Time.get_unix_time_from_system()
 	anchor = Vector2(0, -Global.vec.size.facet.y)
+	
 	init_facets()
 	shuffle_facets()
 	update_size()
@@ -82,24 +85,28 @@ func update_size() -> void:
 
 
 func roll() -> void:
-	if !proprietor.fixed:
-		if skip:
-			skip_animation()
-			proprietor.dice_stopped(self)
-		else:
-			timer.start()
-	
 	reset()
+	
+	if skip:
+		skip_animation()
+		proprietor.dice_stopped(self)
+	else:
+		timer.start()
 
 
 func reset() -> void:
+	if debt != null:
+		debt.crush()
+		debt = null
+	
 	shuffle_facets()
 	pace = 30
 	tick = 0
-	facets.position.y = -Global.vec.size.facet.y * 1
-	var facet = facets.get_child(facets.get_child_count() - 1)
-	var value = facet.get_power_value()
-	flip_to_value(value)
+	facets.position = Vector2(anchor)
+	facets.size = Vector2()
+	#var facet = facets.get_child(facets.get_child_count() - 1)
+	#print(facet.position)
+	#flip_to_facet(facet)
 
 
 func shuffle_facets() -> void:
@@ -133,7 +140,9 @@ func _on_timer_timeout():
 	
 	if pace >= 1.5:
 		tween = create_tween()
-		tween.tween_property(facets, "position", Vector2(0, 0), _time).from(anchor)
+		#var start = Vector2(0, (-0.5 + crushs * 0.5) * Global.vec.size.facet.y)
+		
+		tween.tween_property(facets, "position", Vector2(), _time).from(anchor)
 		tween.tween_callback(pop_up)
 		decelerate_spin()
 	else:
@@ -152,27 +161,26 @@ func pop_up() -> void:
 
 func skip_animation() -> void:
 	var facet = facets.get_children().pick_random()
-	flip_to_value(facet.get_power_value())
+	flip_to_facet(facet)
 
 
-func flip_to_value(value_: int) -> void:
-	for facet in facets.get_children():
-		if facet.get_power_value() == value_:
-			var index = facet.get_index()
-			var step = 1 - index
-			
-			if step < 0:
-				step = facets.get_child_count() - index + 1
-			
-			for _j in step:
-				pop_up()
-			
-			return
+func flip_to_facet(facet_: MarginContainer) -> void:
+	var index = facet_.get_index()
+	var step = 1 - index
+	
+	if step < 0:
+		step = facets.get_child_count() - index + 1
+	
+	for _j in step:
+		pop_up()
+	
+	#print([facet_.mark.subtype, facet_.power.get_number(), facet_.get_index()])
+	return
 
 
-func get_current_facet_value() -> int:
+func get_current_facet() -> MarginContainer:
 	var facet = facets.get_child(1)
-	return facet.get_power_value()
+	return facet
 
 
 func crush() -> void:

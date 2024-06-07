@@ -38,18 +38,18 @@ func init_tokens() -> void:
 
 #region gold treatment
 func get_gold() -> Variant:
-	return gold.get_number()
+	return gold.value.get_number()
 
 
 func change_gold(gold_: Variant) -> void:
-	gold.change_number(gold_)
+	gold.value.change_number(gold_)
 	
 	if !gold.visible:
 		gold.visible = true
 
 
 func set_gold(gold_: Variant) -> void:
-	gold.set_number(gold_)
+	gold.value.set_number(gold_)
 	
 	if !gold.visible:
 		gold.visible = true

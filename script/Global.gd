@@ -212,6 +212,7 @@ func init_font():
 	dict.font.size["season"] = 18
 	dict.font.size["phase"] = 18
 	dict.font.size["moon"] = 18
+	dict.font.size["probability"] = 14
 
 
 func save(path_: String, data_: String):

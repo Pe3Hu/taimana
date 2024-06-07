@@ -43,3 +43,9 @@ func init_basic_setting(input_: Dictionary) -> void:
 
 func get_power_value() -> int:
 	return power.get_number()
+
+
+func crush() -> void:
+	dice.facets.remove_child(self)
+	queue_free()
+	#dice.crushs += 1

@@ -55,11 +55,38 @@ func init_hall() -> void:
 	var input = {}
 	input.proprietor = self
 	input.type = "hall"
-	
 	hall.set_attributes(input)
+	#hall.skip = false
 
 
 func init_route() -> void:
 	var input = {}
 	input.cave = self
 	route.set_attributes(input)
+	route.update_safety()
+#endregion
+
+
+func dice_stopped(dice_: MarginContainer) -> void:
+	var facet = dice_.get_current_facet()
+	var subtype = facet.mark.subtype
+	var value = facet.power.get_number()
+	route.change_couple_value(subtype, value)
+	
+	match subtype:
+		"gold":
+			var n = route.members.get_child_count()
+			var ballast = value % n
+			var treasure = (value - ballast) / n
+			
+			if treasure > 0:
+				for member in route.members.get_children():
+					member.change_gold(treasure)
+				
+				value = -treasure * n
+				route.change_couple_value(subtype, value)
+		
+	
+	dice_.debt = facet
+	route.update_safety()
+

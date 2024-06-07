@@ -2,7 +2,7 @@ extends MarginContainer
 
 
 #region vars
-@onready var slope = $HBox/Slope
+@onready var safety = $HBox/Safety
 @onready var rewards = $HBox/Rewards
 @onready var members = $HBox/Members
 @onready var threats = $HBox/Threats
@@ -25,7 +25,7 @@ func init_basic_setting() -> void:
 	var input = {}
 	input.proprietor = self
 	input.type = "safety"
-	slope.set_attributes(input)
+	safety.set_attributes(input)
 	
 	init_couples()
 	init_members()
@@ -65,3 +65,73 @@ func add_member(chest_: MarginContainer) -> void:
 	members.add_child(member)
 	member.set_attributes(input)
 #endregion
+
+
+func get_threat(type_: String) -> MarginContainer:
+	var index = Global.arr.threat.find(type_)
+	return threats.get_child(index)
+
+
+func get_reward(type_: String) -> MarginContainer:
+	var index = Global.arr.reward.find(type_)
+	return rewards.get_child(index)
+
+
+func get_couple(subtype_: String) -> Variant:
+	var types = ["reward", "threat"]
+	var couple = null
+	
+	for type in types:
+		if Global.arr[type].has(subtype_):
+			match type:
+				"reward":
+					couple = get_reward(subtype_)
+				"threat":
+					couple = get_threat(subtype_)
+	
+	return couple
+
+
+func change_couple_value(subtype_: String, value_: int) -> void:
+	var couple = get_couple(subtype_)
+	couple.change_value(value_)
+
+
+func update_safety() -> void:
+	var subtypes = {}
+	subtypes.success = 0
+	subtypes.failure = 0
+	var debt = cave.hall.debt != null
+	
+	var triggers = []
+	
+	for type in Global.arr.threat:
+		var threat = get_threat(type)
+		var trigger = Global.num.threat.trigger - 1
+		
+		if debt and type == cave.hall.debt.mark.subtype:
+			trigger -= 1
+		
+		var flag = threat.get_value() == trigger
+		
+		if flag:
+			triggers.append(type)
+	
+	for facet in cave.hall.facets.get_children():
+		var type = null
+		
+		if triggers.has(facet.mark.subtype):
+			type = "failure"
+		else:
+			type = "success"
+		
+		subtypes[type] += 1
+		
+		if debt:
+			#print([facet, cave.hall.debt])
+			if facet == cave.hall.debt:
+				subtypes[type] -= 1
+			
+				debt = false
+	
+	safety.set_subtypes(subtypes)

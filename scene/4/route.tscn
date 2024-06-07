@@ -32,7 +32,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Slope" parent="HBox" instance=ExtResource("2_yl245")]
+[node name="Safety" parent="HBox" instance=ExtResource("2_yl245")]
 layout_mode = 2
 
 [node name="Threats" type="VBoxContainer" parent="HBox"]

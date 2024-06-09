@@ -1,0 +1,57 @@
+[
+ {
+  "rank": 0,
+  "type": "hindrance",
+  "dices": 0,
+  "hazard min": 100,
+  "hazard max": 100,
+  "trophy min": -10,
+  "trophy max": -3,
+  "remnant min": 0,
+  "remnant max": 1
+ },
+ {
+  "rank": 1,
+  "type": "hindrance",
+  "dices": 2,
+  "hazard min": 80,
+  "hazard max": 99,
+  "trophy min": -2,
+  "trophy max": -1,
+  "remnant min": 2,
+  "remnant max": 3
+ },
+ {
+  "rank": 2,
+  "type": "standard",
+  "dices": 1,
+  "hazard min": 70,
+  "hazard max": 79,
+  "trophy min": 0,
+  "trophy max": 0,
+  "remnant min": 4,
+  "remnant max": 6
+ },
+ {
+  "rank": 3,
+  "type": "advantage",
+  "dices": 2,
+  "hazard min": 60,
+  "hazard max": 69,
+  "trophy min": 1,
+  "trophy max": 2,
+  "remnant min": 7,
+  "remnant max": 10
+ },
+ {
+  "rank": 4,
+  "type": "advantage",
+  "dices": 0,
+  "hazard min": 0,
+  "hazard max": 59,
+  "trophy min": 3,
+  "trophy max": 100,
+  "remnant min": 11,
+  "remnant max": 100
+ }
+]

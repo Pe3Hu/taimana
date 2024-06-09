@@ -7,6 +7,7 @@ extends MarginContainer
 
 var camp = null
 var god = null
+var appraisals = {}
 #endregion
 
 
@@ -20,6 +21,7 @@ func set_attributes(input_: Dictionary) -> void:
 
 func init_basic_setting() -> void:
 	init_tokens()
+	init_appraisals()
 
 
 func init_tokens() -> void:
@@ -36,4 +38,23 @@ func init_tokens() -> void:
 	input.value = 0
 	gold.set_attributes(input)
 	#gold.designation.custom_minimum_size = Global.vec.size.token
+
+
+func init_appraisals() -> void:
+	for appraisal in Global.arr.appraisal:
+		appraisals[appraisal] = {}
+		
+		for rank in Global.dict.appraisal.rank:
+			var description = Global.dict.appraisal.rank[rank].appraisal[appraisal]
+			appraisals[appraisal][rank] = [description.min, description.max]
 #endregion
+
+
+func get_appraisal_rank(subtype_: String, value_: int) -> Variant:
+	for rank in appraisals[subtype_]:
+		var limits = appraisals[subtype_][rank]
+		
+		if value_ >= limits.front() and value_ <= limits.back():
+			return rank
+	
+	return null

@@ -38,3 +38,17 @@ layout_mode = 2
 
 [node name="Gold" parent="HBox" instance=ExtResource("3_rghvu")]
 layout_mode = 2
+
+[node name="Appraisals" type="HBoxContainer" parent="HBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Hazard" parent="HBox/Appraisals" instance=ExtResource("2_58amx")]
+layout_mode = 2
+
+[node name="Remnant" parent="HBox/Appraisals" instance=ExtResource("2_58amx")]
+layout_mode = 2
+
+[node name="Trophy" parent="HBox/Appraisals" instance=ExtResource("2_58amx")]
+layout_mode = 2

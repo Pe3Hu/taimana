@@ -5,6 +5,9 @@ extends MarginContainer
 @onready var bg = $BG
 @onready var totem = $HBox/Totem
 @onready var gold = $HBox/Gold
+@onready var hazard = $HBox/Appraisals/Hazard
+@onready var remnant = $HBox/Appraisals/Remnant
+@onready var trophy = $HBox/Appraisals/Trophy
 
 var chest = null
 #endregion
@@ -33,6 +36,13 @@ func init_tokens() -> void:
 	input.subtype = "gold"
 	input.value = 0
 	gold.set_attributes(input)
+	
+	for subtype in Global.arr.appraisal:
+		input.type = "appraisal"
+		input.subtype = subtype
+		
+		var appraisal = get(subtype)
+		appraisal.set_attributes(input)
 #endregion
 
 
@@ -55,3 +65,18 @@ func set_gold(gold_: Variant) -> void:
 		gold.visible = true
 #endregion
 
+
+func update_appraisal(subtype_: String) -> void:
+	var value = chest.camp.cave.route.get(subtype_)
+	
+	match subtype_:
+		"hazard":
+			pass
+		"remnant":
+			pass
+		"trophy":
+			value = gold.get_value() - value
+	
+	var rank = chest.get_appraisal_rank(subtype_, value)
+	var appraisal = get(subtype_)
+	appraisal.set_value(rank)

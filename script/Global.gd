@@ -26,7 +26,7 @@ func init_arr() -> void:
 	arr.reward = ["gold", "relic"]
 	arr.threat = ["poison", "fire", "ice", "lightning", "rock"]
 	arr.totem = ["bear", "deer", "dog", "fox", "lion", "monkey", "pig", "rabbit", "snake", "tiger"]
-	
+	arr.appraisal = ["hazard", "remnant", "trophy"]
 
 
 func init_num() -> void:
@@ -54,6 +54,8 @@ func init_num() -> void:
 func init_dict() -> void:
 	init_direction()
 	init_corner()
+	
+	init_appraisal()
 
 
 func init_direction() -> void:
@@ -134,6 +136,35 @@ func init_corner() -> void:
 				
 				var vertex = Vector2(1,0).rotated(angle)
 				dict.corner.vector[corners_][order_][_i] = vertex
+
+
+func init_appraisal() -> void:
+	dict.appraisal = {}
+	dict.appraisal.rank = {}
+	var exceptions = ["rank"]
+	
+	var path = "res://asset/json/taimana_appraisal.json"
+	var array = load_data(path)
+	
+	for appraisal in array:
+		var data = {}
+		data.appraisal = {}
+		
+		for key in appraisal:
+			if !exceptions.has(key):
+				var words = key.split(" ")
+				
+				#if words.size() > 1:
+				if arr.appraisal.has(words[0]):
+					if !data.appraisal.has(words[0]):
+						data.appraisal[words[0]] = {}
+					
+					data.appraisal[words[0]][words[1]] = appraisal[key]
+				
+				else:
+					data[key] = appraisal[key]
+		
+		dict.appraisal.rank[appraisal.rank] = data
 
 
 func init_scene() -> void:

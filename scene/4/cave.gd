@@ -85,7 +85,6 @@ func dice_stopped(dice_: MarginContainer) -> void:
 				
 				value = -treasure * n
 				route.change_couple_value(subtype, value)
-		
 	
 	dice_.debt = facet
 	route.update_safety()

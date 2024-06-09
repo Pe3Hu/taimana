@@ -9,6 +9,9 @@ extends MarginContainer
 
 var cave = null
 var camp = null
+var hazard = null
+var remnant = null
+var trophy = null
 #endregion
 
 
@@ -21,6 +24,9 @@ func set_attributes(input_: Dictionary) -> void:
 
 func init_basic_setting() -> void:
 	camp = cave.planet.camp
+	camp.cave = cave
+	remnant = 0
+	trophy = 5
 	
 	var input = {}
 	input.proprietor = self
@@ -95,6 +101,9 @@ func get_couple(subtype_: String) -> Variant:
 func change_couple_value(subtype_: String, value_: int) -> void:
 	var couple = get_couple(subtype_)
 	couple.change_value(value_)
+	
+	if Global.arr.reward.has(subtype_):
+		remnant += value_
 
 
 func update_safety() -> void:
@@ -135,3 +144,12 @@ func update_safety() -> void:
 				debt = false
 	
 	safety.set_subtypes(subtypes)
+	var stratum = safety.stratums.get_child(0)
+	hazard = stratum.probability.get_number()
+	update_appraisals()
+
+
+func update_appraisals() -> void:
+	for member in members.get_children():
+		for appraisal in Global.arr.appraisal:
+			member.update_appraisal(appraisal)
